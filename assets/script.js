@@ -51,7 +51,7 @@ var loadTasks = function () {
 
     if(!storedTasks) {
         tasks = []
-    }
+    } else {
 
     for (var i = 0; i < storedTasks.length; i++) {
         selectedTaskRow = storedTasks[i].time
@@ -61,7 +61,7 @@ var loadTasks = function () {
         return selectedTaskText})}
         console.log(rowEl)
    }
-
+}
 
 // load tasks for the first time
 loadTasks();
