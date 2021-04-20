@@ -54,4 +54,4 @@ var loadTasks = function () {
 
 
 // load tasks for the first time
-// loadTasks();
+loadTasks();
