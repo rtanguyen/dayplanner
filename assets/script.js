@@ -8,6 +8,8 @@ var rowEl = ""
 var textAreaEl = ""
 var selectedTaskRow =""
 var selectedTaskText = ""
+var currentTime = parseInt(moment().format("k"))
+var time = ""
 
 //current date at top of calendar
 $("#currentDay").html(function () {
@@ -17,11 +19,6 @@ $("#currentDay").html(function () {
 
 //push tasks to array
 $(".row").on("click", "a", function (){
-    // console.log("parent", $(".row"));
-    // console.log("clicktop", $(this));
-    //turn into variables
-    //save to local storage with parent id as key
-    //save input value 
     eventText = $(this).siblings("textarea").val().trim();
     console.log(eventText)
     taskIndex = $(this).closest(".row").index();
@@ -37,7 +34,7 @@ $(".row").on("click", "a", function (){
         tasks[taskIndex].event = eventText
     }
     saveTasks();
-    console.log(tasks)
+    console.log(tasks);
 });
 
 //save tasks in localstorage
@@ -47,21 +44,49 @@ var saveTasks = function () {
 
 //retrieve tasks from localstorage
 var loadTasks = function () {
-    storedTasks = JSON.parse(localStorage.getItem("savedTasks"));
+    tasks = JSON.parse(localStorage.getItem("savedTasks"));
 
-    if(!storedTasks) {
+    if(!tasks) {
         tasks = []
     } else {
-
-    for (var i = 0; i < storedTasks.length; i++) {
-        selectedTaskRow = storedTasks[i].time
-        selectedTaskText = storedTasks[i].event
+    for (var i = 0; i < tasks.length; i++) {
+        selectedTaskRow = tasks[i].time
+        selectedTaskText = tasks[i].event
         rowEl = $('#' + selectedTaskRow);
         $(rowEl).children("textarea").html(function () {
         return selectedTaskText})}
-        console.log(rowEl)
+        // console.log(rowEl)
    }
 }
 
+
+setColor = function () {
+    $("textarea").each(function () {
+//reset background color at beginning of interval
+    $(this).removeClass("past present future")
+
+//grab time from id
+    time = $(this).attr("id").replace("text-","")
+    var textId = "text-" + time
+    // console.log(textId);
+    // console.log(currentTime)
+
+//conditional formatting based on time
+    if (time == currentTime) { 
+        $('#' + textId).addClass('present');
+    } else if (time > currentTime) {
+        $('#' + textId).addClass('future');
+    } else if (time < currentTime) {
+        $('#' + textId).addClass('past');
+}
+})
+}
+//change color every hour
+setInterval(function() {
+    setColor();
+    alert("hi");
+}, (1000 * 60) * 60);
+
 // load tasks for the first time
 loadTasks();
+setColor();
