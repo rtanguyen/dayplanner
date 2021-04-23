@@ -1,5 +1,6 @@
 # Work Day Scheduler Starter Code
 
+A simple planner to organize your schedule for the day.
 Link to deployed application: https://rtanguyen.github.io/dayplanner/
 
 ![Planner](assets/images/planner.jpg)
